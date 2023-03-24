@@ -35,9 +35,15 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         adminRoles.add(adminRole);
         adminRoles.add(userRole);
 
-        User testUser = new User("test1", "test1", "test1@mail.ru", userRoles);
-        User testAdmin = new User("tester", "tester", "tester@bk.ru", adminRoles);
-        userService.save(testUser);
-        userService.save(testAdmin);
+        User testUser = new User("test1", "$2a$12$1gGEhpUmRrlFSagYpU4Vt.CrRu9eNe.2gZsyaU6vAlpNIYwUN17PW", "test1@mail.ru", userRoles);
+        User testAdmin = new User("tester", "$2a$12$QaFtIAbJZaz4oM1jao02ze2HEqSbejlj2sr7DcUHczm0S8j9x/Uj6", "tester@bk.ru", adminRoles);
+        try {
+            userService.update(testUser);
+        } catch (Exception e) {
+        }
+        try {
+            userService.update(testAdmin);
+        } catch (Exception e) {
+        }
     }
 }
