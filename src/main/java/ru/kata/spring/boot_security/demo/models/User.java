@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 import java.util.*;
 
@@ -19,6 +20,7 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "username")
+    @NotEmpty(message = "Name should not be empty")             // добавить валидацию ко всем полям
     private String username;
 
     @Column(name = "password")
@@ -29,6 +31,7 @@ public class User implements UserDetails {
 
     public User(){}
 
+    @Transient
     @ManyToMany//(fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
     @JoinTable(name = "users_roles",

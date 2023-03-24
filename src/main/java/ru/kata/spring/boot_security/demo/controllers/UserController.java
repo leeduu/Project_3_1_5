@@ -1,37 +1,31 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import ru.kata.spring.boot_security.demo.models.Role;
+import ru.kata.spring.boot_security.demo.dto.UserDTO;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.UserService;
-
-import java.security.Principal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @RestController                              // добавлено "Rest" // = @Controller для класса + @ResponseBody для каждого метода в классе
 @RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
-    public UserController(UserService userService) {
+    private final ModelMapper modelMapper;
+    public UserController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping()
-    public User getTestUser() {
-        return userService.findUser(2L);
+    public UserDTO getTestUser() {
+        return convertToUserDTO(userService.findUser(2L));        // добавить principal ?
     }
 
-//    @GetMapping()
-//    public ResponseEntity<Void> getTestUser() {
-//        userService.findUser(2L);
-//        return ResponseEntity.ok().build();
-//    }
+    private UserDTO convertToUserDTO(User user) {              // добавлено
+        return modelMapper.map(user, UserDTO.class);
+    }
+
 
 
 
